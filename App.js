@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableHighlight, FlatList,TouchableOpacity} from 'react-native';
+import Header from './Header'
 
-
-export default function App() {
-  const [todos,setTodos] = useState([])
-  const [text, setText] = useState('')
+  export default function App() {
+    const [todos,setTodos] = useState([])
+    const [text, setText] = useState('')
 
   const addToDo = () => {
     if (text.trim()){
@@ -12,30 +12,39 @@ export default function App() {
       setTodos([...todos, text]),
       setText('')
     }
-  } 
+  }
+
+  const deleteToDo = (key) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter(todo => todo.key != key)
+    })
+  }
 
   return (
     <View style={styles.container}>
+      <Header/>
       <TextInput style={styles.input}
         placeholder="new to do..." 
         onChangeText={text => setText(text)}
         value={text}
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableHighlight style={styles.button}>
         <Text style={styles.textButton} 
           onPress={() => addToDo()}>
         add to list
         </Text>
-      </TouchableOpacity>
+      </TouchableHighlight>
       <FlatList 
         data={todos} 
         renderItem={({item}) => (
-          <View style={styles.list}>
+          <TouchableOpacity 
+            style={styles.list}
+            onPress={() => deleteToDo(item.key)}>
             <Text >{item}</Text>
-          </View>
+          </TouchableOpacity>
         )}
         keyExtractor={(_, index) => index.toString()} />
-    </View>   
+    </View>
       );
     }
 
