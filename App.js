@@ -6,51 +6,38 @@ export default function App() {
   const [todos,setTodos] = useState([])
   const [text, setText] = useState('')
 
-  //o texto digitado no input vai pro state
-  const changeHandler = (value) => { 
-    setText(value)
-  }
-  
-
-  // const addTodo = () => {
-  //   const  = {
-  //     id:1 + Math.random(),
-  //     value: a,
-  //   }
-  
-  // const submitHandler = (text) => {
-  //   setTodos((prevTodos) => {
-  //     return [
-  //       { text: text, key: Math.random().toString },
-  //       ...prevTodos
-  //     ]
-  //   })
-  // }
-   
-
+  const addToDo = () => {
+    if (text.trim()){
+      //no array o [0] é o state e o [1] é a funcao que muda o estado
+      setTodos([...todos, text]),
+      setText('')
+    }
+  } 
 
   return (
     <View style={styles.container}>
       <TextInput style={styles.input}
         placeholder="new to do..." 
-        onChangeText={changeHandler}
-        />
+        onChangeText={text => setText(text)}
+        value={text}
+      />
       <TouchableOpacity style={styles.button}>
         <Text style={styles.textButton} 
-          onPress={() => console.log(text)}
-        >add to list</Text>
+          onPress={() => addToDo()}>
+        add to list
+        </Text>
       </TouchableOpacity>
-      <FlatList data={todos} 
+      <FlatList 
+        data={todos} 
         renderItem={({item}) => (
           <View style={styles.list}>
-            <Text >{item.text}</Text>
+            <Text >{item}</Text>
           </View>
         )}
         keyExtractor={(_, index) => index.toString()} />
     </View>   
       );
     }
-
 
   const styles = StyleSheet.create({
   container: {
@@ -70,7 +57,7 @@ export default function App() {
   button: {
     height:40,
     width:250,
-    backgroundColor:'#68a0cf',
+    backgroundColor:'#FF4500',
     borderRadius:15,
     borderWidth:1,
     marginBottom:20,
@@ -81,13 +68,13 @@ export default function App() {
     paddingTop:10,
   },
   list: {
-    width:350,
+    width:310,
     height:50,
-    backgroundColor:'#DDD',
-    borderWidth: 0.5,
-    borderColor:'#222',
+    backgroundColor:'#fff',
+    borderWidth: 1,
+    borderColor:'#FF4500',
     borderRadius:5,
-    borderStyle:'dashed',
+    // borderStyle:'dashed', //deixar  tracejado
     margin:5,
     alignItems:'center',
     justifyContent:'center'
