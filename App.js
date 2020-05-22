@@ -4,7 +4,7 @@ import Header from './Header'
 
   export default function App() {
     //no array o [0] é o state e o [1] é a funcao que muda o estado
-    const [todos,setTodos] = useState([{text:'mario',key:1},{text:'mario',key:2},{text:'mario',key:3},{text:'mario',key:4}])
+    const [todos,setTodos] = useState([])
     const [text, setText] = useState('')
 
   const changeHandler = (value) => {
