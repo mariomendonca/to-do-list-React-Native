@@ -3,16 +3,23 @@ import {StyleSheet, Text, View, TextInput, TouchableHighlight, FlatList,Touchabl
 import Header from './Header'
 
   export default function App() {
-    const [todos,setTodos] = useState([])
+    //no array o [0] é o state e o [1] é a funcao que muda o estado
+    const [todos,setTodos] = useState([{text:'mario',key:1},{text:'mario',key:2},{text:'mario',key:3},{text:'mario',key:4}])
     const [text, setText] = useState('')
 
-  const addToDo = () => {
-    if (text.trim()){
-      //no array o [0] é o state e o [1] é a funcao que muda o estado
-      setTodos([...todos, text]),
-      setText('')
-    }
+  const changeHandler = (value) => {
+    setText(value)
   }
+
+  const addTodo = (text) => {
+    setTodos((prevTodos) => {
+      return [
+        {text: text, key: Math.random()},
+        ...prevTodos
+      ]
+    })
+  }
+
 
   const deleteToDo = (key) => {
     setTodos((prevTodos) => {
@@ -25,12 +32,13 @@ import Header from './Header'
       <Header/>
       <TextInput style={styles.input}
         placeholder="new to do..." 
-        onChangeText={text => setText(text)}
+        onChangeText={changeHandler}
+        // onChangeText={(value) => changeHandler(value)} ambas linhas fazem a msm coisa
         value={text}
       />
       <TouchableHighlight style={styles.button}>
         <Text style={styles.textButton} 
-          onPress={() => addToDo()}>
+          onPress={() => addTodo(text)}>
         add to list
         </Text>
       </TouchableHighlight>
@@ -40,7 +48,7 @@ import Header from './Header'
           <TouchableOpacity 
             style={styles.list}
             onPress={() => deleteToDo(item.key)}>
-            <Text >{item}</Text>
+            <Text >{item.text}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(_, index) => index.toString()} />
